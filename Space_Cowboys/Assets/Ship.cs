@@ -5,6 +5,8 @@ using UnityEngine;
 public class Ship : MonoBehaviour
 {
 
+    Gun[] guns;
+
     float moveSpeed = 3;
     bool moveUp;
     bool moveDown;
@@ -12,10 +14,12 @@ public class Ship : MonoBehaviour
     bool moveRight;
     bool speedUp;
 
+    bool shoot;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        guns = transform.GetComponentsInChildren<Gun>();
     }
 
     // Update is called once per frame
@@ -26,6 +30,17 @@ public class Ship : MonoBehaviour
         moveLeft = Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A);
         moveRight = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
         speedUp = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+
+
+        shoot = Input.GetKeyDown(KeyCode.LeftControl);
+        if(shoot)
+        {
+            shoot = false;
+            foreach(Gun gun in guns)
+            {
+                gun.Shoot();
+            }
+        }
     }
     private void FixedUpdate()
     {
