@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Destructable : MonoBehaviour
 {
-    bool IsOnScreen = false;
+    bool canBeDestroyed = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,17 +16,24 @@ public class Destructable : MonoBehaviour
     {
         if(transform.position.x <= 17.3f)
         {
-            IsOnScreen = true;
+            canBeDestroyed = true;
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Bullet bullet = collision.GetComponent<Bullet>();
-        if (bullet != null && IsOnScreen == true)
+        if (!canBeDestroyed)
         {
-            Destroy(gameObject);
-            Destroy(bullet.gameObject);
+            return;
+        }
+        Bullet bullet = collision.GetComponent<Bullet>();
+        if (bullet != null)
+        {
+            if (!bullet.isEnemy)
+            {
+                Destroy(gameObject);
+                Destroy(bullet.gameObject);
+            }
         }
     }
 }
