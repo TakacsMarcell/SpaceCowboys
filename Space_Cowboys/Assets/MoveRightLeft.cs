@@ -22,7 +22,7 @@ public class MoveRightLeft : MonoBehaviour
         Vector2 pos = transform.position;
 
         pos.x -= moveSpeed * Time.fixedDeltaTime;
-        if (pos.x < -9.5)
+        if (pos.x < -3.5)
         {
             Destroy(gameObject);
         }

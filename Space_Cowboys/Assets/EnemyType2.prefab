@@ -48,6 +48,7 @@ MonoBehaviour:
   autoShoot: 1
   shootIntervalSeconds: 1.5
   shootDelaySeconds: 0
+  isActive: 0
 --- !u!1 &3771738887967397816
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,6 +97,7 @@ MonoBehaviour:
   autoShoot: 1
   shootIntervalSeconds: 1.5
   shootDelaySeconds: 0.2
+  isActive: 0
 --- !u!1 &8006333250709730316
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,3 +317,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 659ea1cc1d29f7b41936dce7dc157d2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreValue: 300

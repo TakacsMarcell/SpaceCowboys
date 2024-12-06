@@ -5,18 +5,26 @@ using UnityEngine;
 public class Destructable : MonoBehaviour
 {
     bool canBeDestroyed = false;
+    public int scoreValue = 100;
+
+
     // Start is called before the first frame update
     void Start()
     {
-
+        Level.instance.AddDestructable();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(transform.position.x <= 17.3f)
+        if(transform.position.x <= 22.0f && !canBeDestroyed)
         {
             canBeDestroyed = true;
+            Gun[] guns = transform.GetComponentsInChildren<Gun>();
+            foreach(Gun gun in guns)
+            {
+                gun.isActive = true;
+            }
         }
     }
 
@@ -31,9 +39,15 @@ public class Destructable : MonoBehaviour
         {
             if (!bullet.isEnemy)
             {
+                Level.instance.AddScore(scoreValue);
                 Destroy(gameObject);
                 Destroy(bullet.gameObject);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        Level.instance.RemoveDestructable();
     }
 }

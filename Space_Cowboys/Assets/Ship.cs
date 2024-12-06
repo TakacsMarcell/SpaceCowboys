@@ -20,6 +20,10 @@ public class Ship : MonoBehaviour
     void Start()
     {
         guns = transform.GetComponentsInChildren<Gun>();
+        foreach(Gun gun in guns)
+        {
+            gun.isActive = true;
+        }
     }
 
     // Update is called once per frame
