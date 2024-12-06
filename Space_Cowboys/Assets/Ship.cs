@@ -16,9 +16,13 @@ public class Ship : MonoBehaviour
 
     bool shoot;
 
+    GameObject shield;
+
     // Start is called before the first frame update
     void Start()
     {
+        shield = transform.Find("Shield").gameObject;
+        DeactivateShield();
         guns = transform.GetComponentsInChildren<Gun>();
         foreach(Gun gun in guns)
         {
@@ -99,6 +103,28 @@ public class Ship : MonoBehaviour
 
         transform.position = pos;
     }
+
+
+
+    void ActivateShield()
+    {
+        shield.SetActive(true);
+    }
+        void DeactivateShield()
+    {
+        shield.SetActive(false);
+    }
+
+    bool HasShield()
+    {
+        return shield.activeSelf;
+    }
+
+
+
+
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Bullet bullet = collision.GetComponent<Bullet>();
@@ -114,8 +140,25 @@ public class Ship : MonoBehaviour
         Destructable destructable = collision.GetComponent<Destructable>();
         if (destructable != null)
         {
-            Destroy(gameObject);
+            if(HasShield())
+            {
+                DeactivateShield();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
             Destroy(destructable.gameObject);
+        }
+        
+        PowerUp powerUp = collision.GetComponent<PowerUp>();
+        if(powerUp)
+        {
+            if(powerUp.activateShield)
+            {
+                ActivateShield();
+            }
+            Destroy(powerUp.gameObject);
         }
     }
 }
