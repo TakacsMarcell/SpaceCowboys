@@ -46,8 +46,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 5500841484645208636, guid: 6ad0cce2edad6eb44a393cc4e72100d5, type: 3}
   autoShoot: 1
-  shootIntervalSeconds: 0.5
+  shootIntervalSeconds: 1.5
   shootDelaySeconds: 0
+--- !u!1 &3771738887967397816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4307114938787812028}
+  - component: {fileID: 8512197174734491728}
+  m_Layer: 0
+  m_Name: Gun1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4307114938787812028
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771738887967397816}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: -0.8, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9085096217056928243}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+--- !u!114 &8512197174734491728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771738887967397816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29f64e83cb9a92c4ea52caf13d30a433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 5500841484645208636, guid: 6ad0cce2edad6eb44a393cc4e72100d5, type: 3}
+  autoShoot: 1
+  shootIntervalSeconds: 1.5
+  shootDelaySeconds: 0.2
 --- !u!1 &8006333250709730316
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,6 +215,7 @@ Transform:
   m_Children:
   - {fileID: 5389140431740408312}
   - {fileID: 3853257328122188600}
+  - {fileID: 4307114938787812028}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &321991005983489075
@@ -238,7 +287,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

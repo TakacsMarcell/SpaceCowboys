@@ -95,4 +95,23 @@ public class Ship : MonoBehaviour
 
         transform.position = pos;
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Bullet bullet = collision.GetComponent<Bullet>();
+        if (bullet != null)
+        {
+            if (bullet.isEnemy)
+            {
+                Destroy(gameObject);
+                Destroy(bullet.gameObject);
+            }
+        }
+
+        Destructable destructable = collision.GetComponent<Destructable>();
+        if (destructable != null)
+        {
+            Destroy(gameObject);
+            Destroy(destructable.gameObject);
+        }
+    }
 }
