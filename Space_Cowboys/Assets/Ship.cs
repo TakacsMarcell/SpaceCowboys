@@ -76,21 +76,21 @@ public class Ship : MonoBehaviour
         }
 
         pos += move;
-        if (pos.x <= 0.5f)
+        if (pos.x <= 1.5f)
         {
-            pos.x = 0.5f;
+            pos.x = 1.5f;
         }
-        if (pos.x >= 15f)
+        if (pos.x >= 16f)
         {
-            pos.x = 15;
+            pos.x = 16;
         }
-        if (pos.y <= -4f)
+        if (pos.y <= 1)
         {
-            pos.y = -4f;
+            pos.y = 1;
         }
-        if (pos.y >= 4.5f)
+        if (pos.y >= 9)
         {
-            pos.y = 4.5f;
+            pos.y = 9;
         }
 
         transform.position = pos;
