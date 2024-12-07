@@ -65,7 +65,7 @@ public class Ship : MonoBehaviour
         moveRight = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
         speedUp = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
-        shoot = Input.GetKeyDown(KeyCode.LeftControl);
+        shoot = Input.GetKeyDown(KeyCode.Space);
         if (shoot)
         {
             shoot = false;
