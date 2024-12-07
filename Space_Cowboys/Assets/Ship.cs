@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;  
 
 public class Ship : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class Ship : MonoBehaviour
     float invincibleTimer = 0;
     float invincibleTime = 2;
 
-
     bool moveUp;
     bool moveDown;
     bool moveLeft;
@@ -30,29 +30,33 @@ public class Ship : MonoBehaviour
     GameObject shield;
     int powerUpGunLevel = 0;
 
+    
+    public Image[] hearts;  
+
     private void Awake()
     {
         initialPosition = transform.position;
         spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         shield = transform.Find("Shield").gameObject;
         DeactivateShield();
         guns = transform.GetComponentsInChildren<Gun>();
-        foreach(Gun gun in guns)
+        foreach (Gun gun in guns)
         {
             gun.isActive = true;
-            if(gun.powerUpLevelRequirement != 0)
+            if (gun.powerUpLevelRequirement != 0)
             {
                 gun.gameObject.SetActive(false);
             }
         }
+
+        
+        UpdateHealth(hits);  
     }
 
-    // Update is called once per frame
     void Update()
     {
         moveUp = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W);
@@ -61,15 +65,13 @@ public class Ship : MonoBehaviour
         moveRight = Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
         speedUp = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
-
-        shoot = Input.GetKeyDown(KeyCode.Space);
-
+        shoot = Input.GetKeyDown(KeyCode.LeftControl);
         if (shoot)
         {
             shoot = false;
-            foreach(Gun gun in guns)
+            foreach (Gun gun in guns)
             {
-                if(gun.gameObject.activeSelf)
+                if (gun.gameObject.activeSelf)
                 {
                     gun.Shoot();
                 }
@@ -90,8 +92,8 @@ public class Ship : MonoBehaviour
                 spriteRenderer.enabled = !spriteRenderer.enabled;
             }
         }
-
     }
+
     private void FixedUpdate()
     {
         Vector2 pos = transform.position;
@@ -146,13 +148,12 @@ public class Ship : MonoBehaviour
         transform.position = pos;
     }
 
-
-
     void ActivateShield()
     {
         shield.SetActive(true);
     }
-        void DeactivateShield()
+
+    void DeactivateShield()
     {
         shield.SetActive(false);
     }
@@ -162,13 +163,12 @@ public class Ship : MonoBehaviour
         return shield.activeSelf;
     }
 
-
     void AddGuns()
     {
         powerUpGunLevel++;
-        foreach(Gun gun in guns)
+        foreach (Gun gun in guns)
         {
-            if(gun.powerUpLevelRequirement <= powerUpGunLevel)
+            if (gun.powerUpLevelRequirement <= powerUpGunLevel)
             {
                 gun.gameObject.SetActive(true);
             }
@@ -184,6 +184,7 @@ public class Ship : MonoBehaviour
         speedMultiplier = mult;
     }
 
+    
     private void ResetShip()
     {
         transform.position = initialPosition;
@@ -193,8 +194,11 @@ public class Ship : MonoBehaviour
         SetSpeedMultiplier(1);
         hits = 3;
 
+        
+        UpdateHealth(hits);  
     }
 
+    
     void Hit(GameObject gameObjectHit)
     {
         if (HasShield())
@@ -205,7 +209,7 @@ public class Ship : MonoBehaviour
         {
             if (!invincible)
             {
-                hits--;
+                hits--;  
                 if (hits == 0)
                 {
                     ResetShip();
@@ -214,11 +218,33 @@ public class Ship : MonoBehaviour
                 {
                     invincible = true;
                 }
-                Destroy(gameObjectHit);
+
+                
+                UpdateHealth(hits); 
+
+                Destroy(gameObjectHit); 
             }
         }
     }
 
+    
+    public void UpdateHealth(int currentHealth)
+    {
+        
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if (i < currentHealth)
+            {
+                hearts[i].enabled = true;  
+            }
+            else
+            {
+                hearts[i].enabled = false; 
+            }
+        }
+    }
+
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Bullet bullet = collision.GetComponent<Bullet>();
@@ -235,19 +261,19 @@ public class Ship : MonoBehaviour
         {
             Hit(destructable.gameObject);
         }
-        
+
         PowerUp powerUp = collision.GetComponent<PowerUp>();
-        if(powerUp)
+        if (powerUp)
         {
-            if(powerUp.activateShield)
+            if (powerUp.activateShield)
             {
                 ActivateShield();
             }
-            if(powerUp.addGuns)
+            if (powerUp.addGuns)
             {
                 AddGuns();
             }
-            if(powerUp.increaseSpeed)
+            if (powerUp.increaseSpeed)
             {
                 SetSpeedMultiplier(speedMultiplier + 1);
             }
