@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
+    Vector2 initialPosition;
 
     Gun[] guns;
 
     float moveSpeed = 3;
+    float speedMultiplier = 1;
 
     int hits = 3;
     bool invincible = false;
@@ -30,7 +32,7 @@ public class Ship : MonoBehaviour
 
     private void Awake()
     {
-
+        initialPosition = transform.position;
         spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
     }
 
@@ -92,7 +94,7 @@ public class Ship : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 pos = transform.position;
-        float moveAmount = moveSpeed * Time.fixedDeltaTime;
+        float moveAmount = moveSpeed * speedMultiplier * Time.fixedDeltaTime;
         if (speedUp)
         {
             moveAmount *= 3;
@@ -165,21 +167,31 @@ public class Ship : MonoBehaviour
         powerUpGunLevel++;
         foreach(Gun gun in guns)
         {
-            if(gun.powerUpLevelRequirement == powerUpGunLevel)
+            if(gun.powerUpLevelRequirement <= powerUpGunLevel)
             {
                 gun.gameObject.SetActive(true);
+            }
+            else
+            {
+                gun.gameObject.SetActive(false);
             }
         }
     }
 
-    void increaseSpeed()
+    void SetSpeedMultiplier(float mult)
     {
-        moveSpeed*=2;
+        speedMultiplier = mult;
     }
 
     private void ResetShip()
     {
-        Destroy(gameObject);
+        transform.position = initialPosition;
+        DeactivateShield();
+        powerUpGunLevel = -1;
+        AddGuns();
+        SetSpeedMultiplier(1);
+        hits = 3;
+
     }
 
     void Hit(GameObject gameObjectHit)
@@ -236,7 +248,7 @@ public class Ship : MonoBehaviour
             }
             if(powerUp.increaseSpeed)
             {
-                increaseSpeed();
+                SetSpeedMultiplier(speedMultiplier + 1);
             }
             Level.instance.AddScore(powerUp.pointValue);
             Destroy(powerUp.gameObject);
