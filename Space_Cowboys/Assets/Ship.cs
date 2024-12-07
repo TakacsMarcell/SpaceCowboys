@@ -8,6 +8,13 @@ public class Ship : MonoBehaviour
     Gun[] guns;
 
     float moveSpeed = 3;
+
+    int hits = 3;
+    bool invincible = false;
+    float invincibleTimer = 0;
+    float invincibleTime = 2;
+
+
     bool moveUp;
     bool moveDown;
     bool moveLeft;
@@ -16,8 +23,16 @@ public class Ship : MonoBehaviour
 
     bool shoot;
 
+    SpriteRenderer spriteRenderer;
+
     GameObject shield;
     int powerUpGunLevel = 0;
+
+    private void Awake()
+    {
+
+        spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +72,22 @@ public class Ship : MonoBehaviour
                 }
             }
         }
+
+        if (invincible)
+        {
+            if (invincibleTimer >= invincibleTime)
+            {
+                invincibleTimer = 0;
+                invincible = false;
+                spriteRenderer.enabled = true;
+            }
+            else
+            {
+                invincibleTimer += Time.deltaTime;
+                spriteRenderer.enabled = !spriteRenderer.enabled;
+            }
+        }
+
     }
     private void FixedUpdate()
     {
@@ -146,6 +177,35 @@ public class Ship : MonoBehaviour
         moveSpeed*=2;
     }
 
+    private void ResetShip()
+    {
+        Destroy(gameObject);
+    }
+
+    void Hit(GameObject gameObjectHit)
+    {
+        if (HasShield())
+        {
+            DeactivateShield();
+        }
+        else
+        {
+            if (!invincible)
+            {
+                hits--;
+                if (hits == 0)
+                {
+                    ResetShip();
+                }
+                else
+                {
+                    invincible = true;
+                }
+                Destroy(gameObjectHit);
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Bullet bullet = collision.GetComponent<Bullet>();
@@ -153,23 +213,14 @@ public class Ship : MonoBehaviour
         {
             if (bullet.isEnemy)
             {
-                Destroy(gameObject);
-                Destroy(bullet.gameObject);
+                Hit(bullet.gameObject);
             }
         }
 
         Destructable destructable = collision.GetComponent<Destructable>();
         if (destructable != null)
         {
-            if(HasShield())
-            {
-                DeactivateShield();
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-            Destroy(destructable.gameObject);
+            Hit(destructable.gameObject);
         }
         
         PowerUp powerUp = collision.GetComponent<PowerUp>();

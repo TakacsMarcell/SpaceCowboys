@@ -1290,6 +1290,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PowerUpShield
       objectReference: {fileID: 0}
+    - target: {fileID: 8642283147063948086, guid: 12d5f37129280fe4aa862abce6fd23e3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
