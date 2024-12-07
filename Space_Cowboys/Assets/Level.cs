@@ -22,22 +22,22 @@ public class Level : MonoBehaviour
 
     private void Awake()
     {
-        // Ha az instance null, akkor beállítjuk ezt az objektumot az instance-ra
+       
         if (instance == null)
         {
             instance = this;
 
-            // Csak alkalmazzuk a DontDestroyOnLoad-ot, ha nem az EndScene-rõl van szó
+         
             if (SceneManager.GetActiveScene().name != "EndScene")
             {
-                DontDestroyOnLoad(gameObject);  // Ne törlõdjön, amikor jelenetet váltunk
+                DontDestroyOnLoad(gameObject); 
             }
 
             scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
         }
         else
         {
-            Destroy(gameObject);  // Ha már létezik másik példány, töröljük ezt
+            Destroy(gameObject);  
         }
     }
 
@@ -45,15 +45,15 @@ public class Level : MonoBehaviour
     {
         if (scene.name == "EndScene")
         {
-            // Töröljük a Level objektumot és annak minden komponensét
-            Destroy(instance.gameObject);  // A Level objektumot töröljük
-            instance = null;  // Nullázzuk az instance-t, hogy újraindulhasson
+          
+            Destroy(instance.gameObject);  
+            instance = null;  
         }
     }
 
 
 
-    // Start is called before the first frame update
+   
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -110,7 +110,7 @@ public class Level : MonoBehaviour
 
     private void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;  // Eseménykezelõ eltávolítása
+        SceneManager.sceneLoaded -= OnSceneLoaded;  
     }
 
 
