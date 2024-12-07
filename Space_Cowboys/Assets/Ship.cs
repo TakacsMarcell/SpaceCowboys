@@ -17,6 +17,7 @@ public class Ship : MonoBehaviour
     bool shoot;
 
     GameObject shield;
+    int powerUpGunLevel = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,10 @@ public class Ship : MonoBehaviour
         foreach(Gun gun in guns)
         {
             gun.isActive = true;
+            if(gun.powerUpLevelRequirement != 0)
+            {
+                gun.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -46,7 +51,10 @@ public class Ship : MonoBehaviour
             shoot = false;
             foreach(Gun gun in guns)
             {
-                gun.Shoot();
+                if(gun.gameObject.activeSelf)
+                {
+                    gun.Shoot();
+                }
             }
         }
     }
@@ -121,9 +129,22 @@ public class Ship : MonoBehaviour
     }
 
 
+    void AddGuns()
+    {
+        powerUpGunLevel++;
+        foreach(Gun gun in guns)
+        {
+            if(gun.powerUpLevelRequirement == powerUpGunLevel)
+            {
+                gun.gameObject.SetActive(true);
+            }
+        }
+    }
 
-
-
+    void increaseSpeed()
+    {
+        moveSpeed*=2;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -158,6 +179,15 @@ public class Ship : MonoBehaviour
             {
                 ActivateShield();
             }
+            if(powerUp.addGuns)
+            {
+                AddGuns();
+            }
+            if(powerUp.increaseSpeed)
+            {
+                increaseSpeed();
+            }
+            Level.instance.AddScore(powerUp.pointValue);
             Destroy(powerUp.gameObject);
         }
     }
