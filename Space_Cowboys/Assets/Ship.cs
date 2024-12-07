@@ -244,7 +244,12 @@ public class Ship : MonoBehaviour
         }
     }
 
-    
+    public void DeactivateShip()
+    {
+        gameObject.SetActive(false); // Teljesen deaktiválja az objektumot
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Bullet bullet = collision.GetComponent<Bullet>();
@@ -255,6 +260,8 @@ public class Ship : MonoBehaviour
                 Hit(bullet.gameObject);
             }
         }
+
+
 
         Destructable destructable = collision.GetComponent<Destructable>();
         if (destructable != null)

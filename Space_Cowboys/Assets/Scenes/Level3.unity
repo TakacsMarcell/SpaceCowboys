@@ -1401,6 +1401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f64e83cb9a92c4ea52caf13d30a433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerUpLevelRequirement: 0
   bullet: {fileID: 5500841484645208636, guid: 6ad0cce2edad6eb44a393cc4e72100d5, type: 3}
   autoShoot: 1
   shootIntervalSeconds: 1.5
@@ -1819,6 +1820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f64e83cb9a92c4ea52caf13d30a433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerUpLevelRequirement: 0
   bullet: {fileID: 5500841484645208636, guid: 6ad0cce2edad6eb44a393cc4e72100d5, type: 3}
   autoShoot: 1
   shootIntervalSeconds: 1.5
@@ -3161,7 +3163,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
-  - {fileID: 467376545}
   - {fileID: 1063100091}
   - {fileID: 256835955}
   - {fileID: 1672393008}
@@ -3175,3 +3176,4 @@ SceneRoots:
   - {fileID: 1748329865}
   - {fileID: 1185775430}
   - {fileID: 2061889990}
+  - {fileID: 467376545}
