@@ -17,7 +17,7 @@ public class Destructable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(transform.position.x <= 22.0f && !canBeDestroyed)
+        if(transform.position.x <= 17.3f && !canBeDestroyed)
         {
             canBeDestroyed = true;
             Gun[] guns = transform.GetComponentsInChildren<Gun>();
