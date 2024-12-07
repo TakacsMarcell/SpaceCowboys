@@ -62,8 +62,9 @@ public class Ship : MonoBehaviour
         speedUp = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
 
-        shoot = Input.GetKeyDown(KeyCode.LeftControl);
-        if(shoot)
+        shoot = Input.GetKeyDown(KeyCode.Space);
+
+        if (shoot)
         {
             shoot = false;
             foreach(Gun gun in guns)
