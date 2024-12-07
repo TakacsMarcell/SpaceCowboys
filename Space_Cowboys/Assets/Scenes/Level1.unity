@@ -646,6 +646,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PowerUpGun
       objectReference: {fileID: 0}
+    - target: {fileID: 8642283147063948086, guid: 86851fdcef553754a948dd00a1c9d9f3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1888,6 +1892,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6117546301912058591, guid: baf9c4e9e41f44042939542a72656ce1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8977229628678262949, guid: baf9c4e9e41f44042939542a72656ce1, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
