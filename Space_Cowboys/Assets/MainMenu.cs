@@ -21,14 +21,12 @@ public class MainMenu : MonoBehaviour
 
     public void ExitGame()
     {
-       
         Debug.Log("Exiting Game...");
 
 #if UNITY_EDITOR
-       
-        EditorApplication.isPlaying = false;
+        EditorApplication.isPlaying = false; // Editorben állítsa le a lejátszást
 #else
-
+            Application.Quit(); // Buildelt verzióban zárja be az alkalmazást
 #endif
     }
 }
