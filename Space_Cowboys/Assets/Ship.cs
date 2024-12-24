@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;  
+using UnityEngine.UI;
 
 public class Ship : MonoBehaviour
 {
@@ -30,8 +30,7 @@ public class Ship : MonoBehaviour
     GameObject shield;
     int powerUpGunLevel = 0;
 
-    
-    public Image[] hearts;  
+    public Image[] hearts;
 
     private void Awake()
     {
@@ -53,8 +52,7 @@ public class Ship : MonoBehaviour
             }
         }
 
-        
-        UpdateHealth(hits);  
+        UpdateHealth(hits);
     }
 
     void Update()
@@ -184,7 +182,6 @@ public class Ship : MonoBehaviour
         speedMultiplier = mult;
     }
 
-    
     private void ResetShip()
     {
         transform.position = initialPosition;
@@ -194,11 +191,9 @@ public class Ship : MonoBehaviour
         SetSpeedMultiplier(1);
         hits = 3;
 
-        
-        UpdateHealth(hits);  
+        UpdateHealth(hits);
     }
 
-    
     void Hit(GameObject gameObjectHit)
     {
         if (HasShield())
@@ -209,9 +204,11 @@ public class Ship : MonoBehaviour
         {
             if (!invincible)
             {
-                hits--;  
+                hits--;
                 if (hits == 0)
                 {
+                    int finalScore = Level.instance.Score; 
+                    Debug.Log("Game Over! Final Score: " + finalScore);
                     ResetShip();
                 }
                 else
@@ -219,33 +216,26 @@ public class Ship : MonoBehaviour
                     invincible = true;
                 }
 
-                
-                UpdateHealth(hits); 
-
-                Destroy(gameObjectHit); 
+                UpdateHealth(hits);
+                Destroy(gameObjectHit);
             }
         }
     }
 
-    
     public void UpdateHealth(int currentHealth)
     {
-        
         for (int i = 0; i < hearts.Length; i++)
         {
             if (i < currentHealth)
             {
-                hearts[i].enabled = true;  
+                hearts[i].enabled = true;
             }
             else
             {
-                hearts[i].enabled = false; 
+                hearts[i].enabled = false;
             }
         }
     }
-
-    
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -257,8 +247,6 @@ public class Ship : MonoBehaviour
                 Hit(bullet.gameObject);
             }
         }
-
-
 
         Destructable destructable = collision.GetComponent<Destructable>();
         if (destructable != null)
@@ -281,7 +269,10 @@ public class Ship : MonoBehaviour
             {
                 SetSpeedMultiplier(speedMultiplier + 1);
             }
-            Level.instance.AddScore(powerUp.pointValue);
+            Level.instance.AddScore(powerUp.pointValue); 
+            int currentScore = Level.instance.Score;    
+            Debug.Log("Current Score: " + currentScore);
+
             Destroy(powerUp.gameObject);
         }
     }

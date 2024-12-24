@@ -9,14 +9,12 @@ public class MainMenu : MonoBehaviour
 {
     public void StartGame()
     {
-  
         SceneManager.LoadScene("IntroScene");
     }
 
     public void ShowScores()
     {
-  
-        Debug.Log("Scoreboard is under construction!");
+        SceneManager.LoadScene("ScoreboardScene");
     }
 
     public void ExitGame()
@@ -26,7 +24,7 @@ public class MainMenu : MonoBehaviour
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false; // Editorben állítsa le a lejátszást
 #else
-            Application.Quit(); // Buildelt verzióban zárja be az alkalmazást
+        Application.Quit(); // Buildelt verzióban zárja be az alkalmazást
 #endif
     }
 }

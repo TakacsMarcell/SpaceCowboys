@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
 public class Level : MonoBehaviour
 {
-
     public static Level instance;
     private Ship playerShip;
-    int numDestructables= 0;
+    int numDestructables = 0;
     bool startNextLevel = false;
     float nextLevelTimer = 3;
 
@@ -20,24 +17,25 @@ public class Level : MonoBehaviour
     int score = 0;
     Text scoreText;
 
+ 
+    private string scoreFilePath = "scoreboard.txt";
+
     private void Awake()
     {
-       
         if (instance == null)
         {
             instance = this;
 
-         
             if (SceneManager.GetActiveScene().name != "EndScene")
             {
-                DontDestroyOnLoad(gameObject); 
+                DontDestroyOnLoad(gameObject);
             }
 
             scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
         }
         else
         {
-            Destroy(gameObject);  
+            Destroy(gameObject);
         }
     }
 
@@ -45,34 +43,40 @@ public class Level : MonoBehaviour
     {
         if (scene.name == "EndScene")
         {
-          
-            Destroy(instance.gameObject);  
-            instance = null;  
+            SaveScore(score); 
+
+            
+            scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
+
+            
+            LoadScores();
+
+            
+            Destroy(instance.gameObject);
+            instance = null;
         }
     }
 
-
-
-   
     void Start()
     {
+       
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    // Update is called once per frame
     void Update()
     {
-     if(startNextLevel)
+        if (startNextLevel)
         {
-            if(nextLevelTimer <= 0)
+            if (nextLevelTimer <= 0)
             {
                 currentLevel++;
-                if(currentLevel <= levels.Length)
+                if (currentLevel <= levels.Length)
                 {
                     string sceneName = levels[currentLevel - 1];
                     SceneManager.LoadSceneAsync(sceneName);
                 }
-                else {
+                else
+                {
                     SceneManager.LoadScene("EndScene");
                 }
                 nextLevelTimer = 3;
@@ -82,27 +86,29 @@ public class Level : MonoBehaviour
             {
                 nextLevelTimer -= Time.deltaTime;
             }
-
         }
-        
     }
 
+    
     public void AddScore(int amountToAdd)
     {
         score += amountToAdd;
-        scoreText.text = score.ToString();
+        scoreText.text = "Score: " + score.ToString(); 
     }
 
+    
     public void AddDestructable()
     {
         numDestructables++;
     }
 
+    
     public void RemoveDestructable()
     {
         numDestructables--;
 
-        if(numDestructables == 0)
+        
+        if (numDestructables == 0)
         {
             startNextLevel = true;
         }
@@ -110,10 +116,49 @@ public class Level : MonoBehaviour
 
     private void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;  
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    private void SaveScore(int score)
+    {
+        
+        string scoreText = "Score: " + score + " at " + System.DateTime.Now.ToString();
+        
+        string scoreFilePath = Path.Combine(Application.persistentDataPath, "score.txt");
 
+        
+        File.AppendAllText(scoreFilePath, scoreText + "\n");
 
+        Debug.Log("Score saved to: " + scoreFilePath); 
+    }
 
+    
+    private void LoadScores()
+    {
+        string scoreFilePath = Path.Combine(Application.persistentDataPath, "score.txt");
+
+        if (File.Exists(scoreFilePath))
+        {
+            string[] allScores = File.ReadAllLines(scoreFilePath);
+
+            string displayText = "High Scores:\n";
+            foreach (string scoreLine in allScores)
+            {
+                displayText += scoreLine + "\n"; 
+            }
+
+            
+            scoreText.text = displayText;
+        }
+        else
+        {
+            scoreText.text = "No scores available.";
+        }
+    }
+
+    
+    public int Score
+    {
+        get { return score; }
+    }
 }
