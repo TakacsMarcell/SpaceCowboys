@@ -93,7 +93,7 @@ public class Level : MonoBehaviour
     public void AddScore(int amountToAdd)
     {
         score += amountToAdd;
-        scoreText.text = "Score: " + score.ToString(); 
+        scoreText.text = "" + score.ToString(); 
     }
 
     
